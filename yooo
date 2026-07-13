@@ -1,0 +1,133 @@
+import SwiftUI
+
+struct ContentView: View {
+    // Variáveis de estado para controlar as funções
+    @State private var aimbotAtivo = false
+    @State private var espDistancia: Double = 50.0
+    @State private var noRecoilAtivo = false
+    @State private var aimlockAtivo = false
+    @State private var aimFovRaio: Double = 30.0
+    
+    // Funções extras aleatórias
+    @State private var autoLootAtivo = false
+    @State private var ghostModeAtivo = false
+    @State private var bypassAntiBan = true
+    
+    var body: some View {
+        ZStack {
+            // Fundo futurista escuro
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 20) {
+                // Cabeçalho da Store
+                VStack(spacing: 5) {
+                    Text("PRODUÇÃO LIMA")
+                        .font(.system(size: 28, weight: .black, design: .monospaced))
+                        .foregroundColor(.cyan)
+                        .shadow(color: .cyan, radius: 10, x: 0, y: 0)
+                    
+                    Text("_STORE // SISTEMA ATIVO")
+                        .font(.system(size: 14, weight: .regular, design: .monospaced))
+                        .foregroundColor(.gray)
+                }
+                .padding(.top, 40)
+                .padding(.bottom, 20)
+                
+                // Painel de Funções
+                ScrollView {
+                    VStack(spacing: 25) {
+                        
+                        // Seção de Mira (Aim)
+                        GrupoDeControle(titulo: "SISTEMAS DE MIRA") {
+                            Toggle("Aimbot System", isOn: $aimbotAtivo)
+                            Toggle("Aimlock Track", isOn: $aimlockAtivo)
+                            Toggle("No Recoil", isOn: $noRecoilAtivo)
+                            
+                            VStack(alignment: .leading) {
+                                Text("Aim FOV Radius: \(Int(aimFovRaio))°")
+                                    .foregroundColor(.cyan)
+                                Slider(value: $aimFovRaio, in: 0...100, step: 1)
+                                    .accentColor(.cyan)
+                            }
+                            .padding(.top, 5)
+                        }
+                        
+                        // Seção de Rastreamento (ESP)
+                        GrupoDeControle(titulo: "RASTREAMENTO & ESP") {
+                            VStack(alignment: .leading) {
+                                Text("ESP Distance: \(Int(espDistancia))m")
+                                    .foregroundColor(.green)
+                                Slider(value: $espDistancia, in: 0...100, step: 1)
+                                    .accentColor(.green)
+                            }
+                        }
+                        
+                        // Seção de Funções Extras
+                        GrupoDeControle(titulo: "FUNÇÕES AVANÇADAS") {
+                            Toggle("Auto Loot (Fast)", isOn: $autoLootAtivo)
+                            Toggle("Ghost Mode", isOn: $ghostModeAtivo)
+                            Toggle("Bypass Security", isOn: $bypassAntiBan)
+                        }
+                        
+                        // Botão de Injetar/Iniciar
+                        Button(action: {
+                            // Ação de inicialização do sistema
+                            print("Sistema Lima_Store iniciado no dispositivo...")
+                        }) {
+                            Text("INICIALIZAR MÓDULOS")
+                                .font(.system(size: 18, weight: .bold, design: .monospaced))
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.cyan.opacity(0.2))
+                                .foregroundColor(.cyan)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .stroke(Color.cyan, lineWidth: 2)
+                                )
+                        }
+                        .padding(.top, 20)
+                        
+                    }
+                    .padding(.horizontal, 25)
+                }
+            }
+        }
+        // Força o tema escuro no iPhone
+        .preferredColorScheme(.dark)
+    }
+}
+
+// Componente customizado para deixar o layout com visual de "Hack/Futurista"
+struct GrupoDeControle<Content: View>: View {
+    let titulo: String
+    let content: Content
+    
+    init(titulo: String, @ViewBuilder content: () -> Content) {
+        self.titulo = titulo
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 15) {
+            Text(titulo)
+                .font(.system(size: 12, weight: .bold, design: .monospaced))
+                .foregroundColor(.gray)
+            
+            VStack(spacing: 15) {
+                content
+            }
+            .padding()
+            .background(Color(white: 0.05))
+            .cornerRadius(10)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color(white: 0.15), lineWidth: 1)
+            )
+        }
+    }
+}
+
+// Preview para ver no Xcode
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentVie
